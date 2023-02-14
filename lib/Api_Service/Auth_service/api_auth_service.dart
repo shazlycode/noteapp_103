@@ -6,9 +6,14 @@ import '../../constants/constants.dart';
 
 class ApiAuthService {
   Future signup(String username, String email, String password) async {
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('shazlycode:SagedSela2015'));
+
+    Map<String, String> myheaders = {'authorization': basicAuth};
     try {
       final response = await http.post(Uri.parse(Env.signupUrl),
-          body: {'username': username, 'email': email, 'password': password});
+          body: {'username': username, 'email': email, 'password': password},
+          headers: myheaders);
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
         return result;
@@ -21,9 +26,13 @@ class ApiAuthService {
   }
 
   Future login(String email, String password) async {
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('shazlycode:SagedSela2015'));
+
+    Map<String, String> myheaders = {'authorization': basicAuth};
     try {
       final response = await http.post(Uri.parse(Env.loginUrl),
-          body: {'email': email, 'password': password});
+          body: {'email': email, 'password': password}, headers: myheaders);
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
         return result;

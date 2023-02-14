@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:noteapp_103/Api_Service/Actions_services/actions.dart';
 import 'package:noteapp_103/main.dart';
 import 'package:noteapp_103/screens/actions/edit_note.dart';
@@ -45,10 +43,13 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  Future deleteNote(String noteId) async {
+  Future deleteNote(String noteId, String note_image) async {
     ActionsServices actionsServices = ActionsServices();
     try {
-      final response = await actionsServices.delete({'note_id': noteId});
+      final response = await actionsServices.delete({
+        'note_id': noteId,
+        'note_image': note_image,
+      });
       if (response['status'] == 'success') {
         fetched.removeWhere((element) => element['note_id'] == noteId);
         setState(() {});
@@ -151,7 +152,11 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           onDismissed: (v) async {
                             await deleteNote(
-                                fetched[index]['note_id'].toString());
+                                fetched[index]['note_id'].toString(),
+                                fetched[index]['note_image']);
+                            fetched.removeWhere((element) =>
+                                element['note_id'] ==
+                                fetched[index]['note_id']);
                           },
                           direction: DismissDirection.endToStart,
                           child: Card(
@@ -165,8 +170,8 @@ class _MainScreenState extends State<MainScreen> {
                                   Expanded(
                                       flex: 1,
                                       child: SizedBox(
-                                          child: Image.asset(
-                                              'assets/images/logo.png'))),
+                                          child: Image.network(
+                                              '${Env.imageUrl}/${fetched[index]['note_image']}'))),
                                   Expanded(
                                       flex: 3,
                                       child: ListTile(
