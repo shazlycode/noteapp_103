@@ -49,6 +49,7 @@ class _AuthState extends State<Auth> {
         AwesomeDialog(context: context, body: Text('An error occured')).show();
       }
     } else {
+      print('login');
       final response = await apiAuthService.login(
           emailController.text, passwordController.text);
 
@@ -56,6 +57,7 @@ class _AuthState extends State<Auth> {
         await prefs.setString(
             'userData',
             jsonEncode({
+              'id': response['data']['id'],
               'email': emailController.text,
               'username': response['data']['username'],
             }));

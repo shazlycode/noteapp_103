@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:noteapp_103/screens/actions/add_note_screen.dart';
+import 'package:noteapp_103/screens/actions/edit_note.dart';
 import 'package:noteapp_103/screens/auth/auth.dart';
-import 'package:noteapp_103/screens/main_screen.dart';
+import 'package:noteapp_103/screens/actions/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences prefs;
@@ -28,6 +30,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/mainScreen': (context) => MainScreen(),
         '/auth': (context) => Auth(),
+        '/addNoteScreen': (context) => AddNote(),
+        '/editNoteScreen': (context) => EditNote(),
       },
     );
   }
